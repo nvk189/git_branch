@@ -1,0 +1,140 @@
+<!-- import { ChipsModule } from 'primeng/chips'; -->
+
+
+
+<!--  commit 2 -->
+<div class="container-fluid ">
+    <div class="row p-2 bg-info">
+        <div class="col-6">
+            <h3>Employee list</h3>
+        </div>
+        
+        <div class="col-6 text-end">
+            <button class="btn btn-warning" (click) = "openModal()">Add Employee </button>
+        </div>
+
+    </div>
+    @if(employeeList && employeeList.length >0 ){
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>email</th>
+                    <th>mobile</th>
+                    <th>age</th>
+                    <th>salary</th>
+                    <th>status</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (item of employeeList; track $index){
+    
+                    <tr>
+                        <th>{{item.name | uppercase}}</th>
+                        <th>{{item.email}} </th>
+                        <th>{{item.mobile}} </th>
+                        <th>{{item.age}} </th>
+                        <th>{{item.salary}} </th>
+                        <th>{{item.status}} </th>
+                       
+                        <td class="text-center">
+                            <button class="btn btn-primary" (click)="OnEdit(item)">Sửa</button>
+                            <button (click)="onDelete(item)" class="btn btn-danger">Xóa</button>
+                            <!-- <button (click) = "onDelete()" class="btn btn-danger" >Xóa</button> -->
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    @else{
+        <p class="text-center">Not found</p>
+    }
+</div>
+
+
+  
+  <!-- The Modal -->
+  <div class="modal" id="myModal" #myModal>
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header bg-info">
+            @if(employeeFrom.value.id == 0){
+
+                <h4 class="modal-title">Add Employee</h4>
+            }
+            @else{
+                <h4 class="modal-title">Update Employee</h4>
+
+            }
+            <button type="button" (click)="closeModal()" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+  
+        <form [formGroup]="employeeFrom" (ngSubmit)="onSubmit()">
+        <!-- <form [formGroup]="employeeFrom" > -->
+            <div class="modal-body">
+             <div class="row">
+                <div class="col-12">
+                    <input type="text" formControlName="name" name="name" placeholder="Name " class="form-control">
+                </div>
+             </div>
+             <div class="row mt-2">
+                <div class="col-6">
+                    <input type="text" formControlName="email" name="email" placeholder="Email " class="form-control">
+                </div>
+                <div class="col-6">
+                    <input type="text" formControlName="mobile" name="mobile" placeholder="Mobile " class="form-control">
+                </div>
+               
+             </div>
+             <div class="row mt-2">
+                <div class="col-6">
+                    <input type="number" formControlName="age" name="age" placeholder="Age " class="form-control">
+                </div>
+                <div class="col-6">
+                    <input type="number" formControlName="salary" name="salary" placeholder="Salary " class="form-control">
+                </div>
+               
+             </div>
+             <div class="row mt-2">
+                <div class="col-12">
+                    <div class="form-group form-check">
+    
+                        <input type="checkbox" name="status"  class="form-check-input">
+                        <label for="">Active ?</label>
+                    </div>
+                </div>
+               
+               
+             </div>
+            </div>
+      
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                @if(employeeFrom.value.id == 0){
+
+                    <button [disabled]="this.employeeFrom.invalid" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+                }
+                @else{
+                    <button [disabled]="this.employeeFrom.invalid" type="submit" class="btn btn-success" data-bs-dismiss="modal">Update</button>
+
+                }
+              <button (click)="closeModal()" type="button" class="btn btn-danger" data-bs-dismiss="modal">Xoa</button>
+            </div>
+        </form>
+        <!-- Modal body -->
+  
+      </div>
+    </div>
+
+    <!--  test prima  -->
+    <!-- <p-chips [(ngModel)]="values">
+        <ng-template let-item pTemplate="item">
+            {{ item }} - (active) <i class="pi pi-user ml-2"></i> 
+         </ng-template>
+    </p-chips> -->
+  </div>
